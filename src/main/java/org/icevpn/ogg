@@ -1,0 +1,52 @@
+    public void paymentConfirmation() {
+//----------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------- INFO MESSAGE
+        String info = "ℹ\uFE0F Выберите, что вас интересует";
+        SendPoll sendPoll = new SendPoll(
+                "Выберите ваши любимые языки программирования:",
+                "Java", "Python", "JavaScript", "C++"
+            );
+
+            // Настройка опроса
+            sendPoll.isAnonymous(false); // Опрос не анонимный
+            sendPoll.allowsMultipleAnswers(true); // Разрешить выбор нескольких ответов
+
+            // Отправка опроса
+            SendResponse response = bot.execute(sendPoll);
+    }
+    private static void handlePollAnswer(PollAnswer pollAnswer) {
+        String pollId = pollAnswer.pollId(); // ID опроса
+        long userId = pollAnswer.user().id(); // ID пользователя
+        Integer[] optionIds = pollAnswer.optionIds(); // Выбранные варианты (индексы)
+
+        System.out.println("Пользователь " + userId + " выбрал варианты:");
+
+        for (int optionId : optionIds) {
+            switch (optionId) {
+                case 0:
+                    System.out.println("- Java");
+                    break;
+                case 1:
+                    System.out.println("- Python");
+                    break;
+                case 2:
+                    System.out.println("- JavaScript");
+                    break;
+                case 3:
+                    System.out.println("- C++");
+                    break;
+                default:
+                    System.out.println("- Неизвестный вариант");
+                    break;
+            }
+        }
+    }
+    public void handleChoice(CallbackQuery callbackQuery) {
+        String callbackData = callbackQuery.data();
+        long chatId = callbackQuery.message().chat().id();
+        int messageId = callbackQuery.message().messageId();
+        if ("info".equals(callbackData)) {
+            String info = "ℹ\uFE0F Выберите, что вас интересует";
+        }
+    }
+}
